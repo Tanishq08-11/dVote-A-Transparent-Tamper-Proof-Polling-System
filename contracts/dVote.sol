@@ -6,26 +6,30 @@ pragma solidity ^0.8.20;
  * @notice Allows users to create proposals and vote with transparent, tamper-proof tallies.
  */
 contract dVote {
-    // Blueprint for each proposal
+    /// @notice Data structure representing an individual voting proposal
     struct Proposal {
-        uint256 id;
-        string title;
-        string description;
-        address creator;
-        uint256 voteCountYes;
-        uint256 voteCountNo;
-        uint256 deadline;
-        bool exists;
+        uint256 id;                 // Unique identifier for the proposal
+        string title;               // Short title describing the proposal
+        string description;         // Full proposal details and rationale
+        address creator;            // Wallet address that created the proposal
+        uint256 voteCountYes;       // Total number of Yes votes accumulated
+        uint256 voteCountNo;        // Total number of No votes accumulated
+        uint256 deadline;           // Unix timestamp marking when voting closes
+        bool exists;                // Safety flag to verify proposal existence
     }
 
-    // Storage for all proposals
+    /// @notice Dynamic array containing all created proposals
     Proposal[] private proposals;
 
-    // Track if a specific address has voted on a specific proposal:
-    // proposalId => (voterAddress => true/false)
+    /// @notice Mapping to track voter participation: proposalId => (voterAddress => hasVoted)
+    /// @dev Prevents double-voting attacks cryptographically on-chain
     mapping(uint256 => mapping(address => bool)) private hasVoted;
 
-    // Events emitted to allow frontends and indexers to detect changes
+    /// @notice Emitted whenever a new voting proposal is created
+    /// @param id Unique proposal identifier
+    /// @param title Short title of the proposal
+    /// @param creator Address of the user who authored the proposal
+    /// @param deadline Unix timestamp after which no more votes can be accepted
     event ProposalCreated(
         uint256 indexed id,
         string title,
@@ -33,6 +37,12 @@ contract dVote {
         uint256 deadline
     );
 
+    /// @notice Emitted whenever a voter casts a vote on an active proposal
+    /// @param proposalId ID of the proposal voted on
+    /// @param voter Wallet address of the voter
+    /// @param support True for Yes, False for No
+    /// @param newVoteCountYes Updated tally of Yes votes
+    /// @param newVoteCountNo Updated tally of No votes
     event Voted(
         uint256 indexed proposalId,
         address indexed voter,

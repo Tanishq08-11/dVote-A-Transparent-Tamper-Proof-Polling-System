@@ -1,8 +1,26 @@
-{
-  "name": "web3-portfolio-dapps",
-  "private": true,
+﻿{
+  "name": "dvote-polling-system",
   "version": "1.0.0",
+  "description": "A transparent, tamper-proof decentralized voting application (dApp) on Ethereum Sepolia Testnet built with Solidity, React, and Ethers.js.",
+  "author": "Tanishq08-11",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tanishq08-11/dVote-A-Transparent-Tamper-Proof-Polling-System.git"
+  },
+  "keywords": [
+    "web3",
+    "ethereum",
+    "solidity",
+    "smart-contracts",
+    "voting-dapp",
+    "governance",
+    "sepolia",
+    "ethersjs",
+    "react",
+    "vite"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
